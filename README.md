@@ -1,12 +1,14 @@
 # ZipLink
 
-`ZipLink` is a Wolfram Language paclet that provides bindings to the Rust `zip` crate via LibraryLink. It allows for high-performance zipping and unzipping of files and directories.
+`ZipLink` is a Wolfram Language paclet that provides bindings to the Rust `zip` crate via LibraryLink. It allows for high-performance zipping and unzipping of files and directories with support for modern compression formats.
 
 ## Features
 
-- **Efficient**: Uses the Rust `zip` crate for compressed archive operations.
+- **Multi-Format Support**: Deflate, Bzip2, and ZStandard (zstd) compression.
+- **Archive Inspection**: List contents and metadata without extracting.
+- **Single File Extraction**: Extract specific files from an archive.
 - **Recursive**: Supports zipping entire directory structures.
-- **LibraryLink**: Seamlessly integrated into the Wolfram Language.
+- **LibraryLink**: High-performance Rust-to-WL integration.
 
 ## Building the Paclet
 
@@ -17,29 +19,45 @@ To build the project, you need to have `cargo` (Rust) and `wolframscript` instal
     ```bash
     wolframscript -file scripts/BuildPaclet.wl
     ```
-    This script will:
-    - Compile the Rust code in `zip_link/`.
-    - Copy the dynamic library to the paclet's `LibraryResources` directory.
-    - Build the final `.paclet` file in the `build/` directory.
 
 ## Installation
 
-After building, you can install the paclet using:
 ```wolfram
 PacletInstall["build/ZipLink-MacOSX-ARM64-1.0.0.paclet"]
 ```
-*(Adjust the filename based on your system ID and version)*
+
+## Functions
+
+### `Zip[source, dest, options]`
+Creates a zip archive at `dest` containing the file or directory at `source`.
+
+- **Options**:
+    - `"CompressionMethod"`: `"Deflate"` (default), `"Bzip2"`, `"ZStandard"`, or `"None"`.
+    - `"CompressionLevel"`: Integer (higher for better compression, lower for speed).
+
+### `Unzip[source, dest]`
+Extracts the entire contents of the zip archive at `source` into the directory at `dest`.
+
+### `ZipInformation[zip]`
+Returns a list of associations containing metadata for each file in the archive.
+- Fields: `"FileName"`, `"Size"`, `"CompressedSize"`, `"CompressionMethod"`, `"CRC32"`.
+
+### `ZipExtract[zip, file, dest]`
+Extracts a specific `file` (relative path in the archive) from the `zip` into the `dest` directory.
 
 ## Quick Start
 
 ```wolfram
 Needs["ZipLink`"]
 
-(* Zip a file or directory *)
-Zip["path/to/source", "archive.zip"]
+(* Zip using ZStandard compression *)
+Zip["my_data", "data.zip", "CompressionMethod" -> "ZStandard"]
 
-(* Unzip an archive *)
-Unzip["archive.zip", "path/to/destination"]
+(* Inspect the archive *)
+ZipInformation["data.zip"]
+
+(* Extract just one file *)
+ZipExtract["data.zip", "my_data/report.txt", "extracts"]
 ```
 
 ## Testing

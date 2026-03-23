@@ -56,3 +56,58 @@ VerificationTest[
     ,
     TestID -> "ZipUnzipDirectory"
 ]
+
+VerificationTest[
+    Module[{source = "info_test.txt", zip = "info_test.zip", info},
+        If[FileExistsQ[source], DeleteFile[source]];
+        If[FileExistsQ[zip], DeleteFile[zip]];
+        Export[source, "Info Content", "String"];
+        Zip[source, zip];
+        info = ZipInformation[zip];
+        If[FailureQ[info], Return[info, Module]];
+        MatchQ[info, {KeyValuePattern[{"FileName" -> "info_test.txt", "Size" -> 12}]}]
+    ]
+    ,
+    True
+    ,
+    TestID -> "ZipInformation"
+]
+
+VerificationTest[
+    Module[{source = "extract_test.txt", zip = "extract_test.zip", extractDir = "extracted_single", res},
+        If[FileExistsQ[source], DeleteFile[source]];
+        If[FileExistsQ[zip], DeleteFile[zip]];
+        If[DirectoryQ[extractDir], DeleteDirectory[extractDir, DeleteContents -> True]];
+        
+        Export[source, "Extract Me", "String"];
+        Zip[source, zip];
+        
+        CreateDirectory[extractDir];
+        res = ZipExtract[zip, "extract_test.txt", extractDir];
+        If[FailureQ[res], Return[res, Module]];
+        
+        FileExistsQ[FileNameJoin[{extractDir, "extract_test.txt"}]] && 
+        Import[FileNameJoin[{extractDir, "extract_test.txt"}], "String"] === "Extract Me"
+    ]
+    ,
+    True
+    ,
+    TestID -> "ZipExtract"
+]
+
+VerificationTest[
+    Module[{source = "zstd_test.txt", zip = "zstd_test.zip", info, res},
+        If[FileExistsQ[source], DeleteFile[source]];
+        If[FileExistsQ[zip], DeleteFile[zip]];
+        Export[source, "Zstd Content", "String"];
+        res = Zip[source, zip, "CompressionMethod" -> "ZStandard"];
+        If[FailureQ[res], Return[res, Module]];
+        
+        info = ZipInformation[zip];
+        MatchQ[info, {KeyValuePattern[{"CompressionMethod" -> "Zstd"}]}]
+    ]
+    ,
+    True
+    ,
+    TestID -> "ZipZStandard"
+]
