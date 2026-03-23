@@ -1,0 +1,15 @@
+# Exclude Rust code as requested
+zip_link/
+
+# Exclude build artifacts
+build/
+LibraryResources/
+.DS_Store
+
+# Temporary test files (moved to tests/)
+tests/test_file.txt
+tests/test_file.zip
+tests/unzip_test/
+tests/test_dir/
+tests/test_dir.zip
+tests/unzip_dir_test/
