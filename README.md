@@ -31,9 +31,18 @@ PacletInstall["build/ZipLink-MacOSX-ARM64-1.0.0.paclet"]
 ### `Zip[source, dest, options]`
 Creates a zip archive at `dest` containing the file or directory at `source`.
 
-- **Options**:
-    - `"CompressionMethod"`: `"Deflate"` (default), `"Bzip2"`, `"ZStandard"`, or `"None"`.
-    - `"CompressionLevel"`: Integer (higher for better compression, lower for speed).
+`"CompressionLevel"`: Integer or `Automatic`.
+
+**"Deflate"**: `0` (least) to `9` (most). Default: `6`.
+
+**"Bzip2"**: `0` (least) to `9` (most). Default: `6`.
+
+**"ZStandard"**: `-7` (least) to `22` (most). Default: `3`.
+
+**None**: Only `Automatic` is supported.
+
+> [!TIP]
+> **Performance**: `"ZStandard"` is generally the fastest compression method while providing excellent compression ratios. Use `"None"` if you only need to bundle files without reducing their size. `"Bzip2"` is usually the slowest but can be very effective for large text-based data.
 
 ### `Unzip[source, dest]`
 Extracts the entire contents of the zip archive at `source` into the directory at `dest`.
