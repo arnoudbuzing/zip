@@ -4,6 +4,7 @@ Zip::usage = "Zip[source, dest] zips the source file or directory and saves it t
 Unzip::usage = "Unzip[source, dest] unzips the source file and saves it to dest.";
 ZipInformation::usage = "ZipInformation[zip] returns a list of associations containing metadata for each file in the zip archive.";
 ZipExtract::usage = "ZipExtract[zip, file, dest] extracts a single file from the zip archive to the destination directory.";
+Zip::nolib = "ZipLink LibraryLink library (libzip_link) not found at `1`.";
 
 Begin["`Private`"];
 
@@ -21,7 +22,7 @@ If[zipLibrary === $Failed,
 ];
 
 If[!FileExistsQ[zipLibrary],
-    Print["Error: ZipLink LibraryLink library (libzip_link) not found at ", zipLibrary]
+    Message[Zip::nolib, zipLibrary]
 ];
 
 iZipFile = LibraryFunctionLoad[zipLibrary, "zip_file", LinkObject, LinkObject];
