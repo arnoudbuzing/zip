@@ -42,8 +42,11 @@ jobs:
           workspaces: zip_link
 
       - name: Build
-        run: cargo build --release --target ${{ matrix.target }}
-        working-directory: zip_link
+        run: |
+          echo "Listing files to debug structure..."
+          ls -R
+          echo "Building..."
+          cd zip_link && cargo build --release --target ${{ matrix.target }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
