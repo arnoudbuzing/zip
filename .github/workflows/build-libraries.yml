@@ -67,11 +67,15 @@ jobs:
         shell: bash
         run: |
           if [ "${{ runner.os }}" = "macOS" ]; then
-            # satisfy wstp-sys requirement for WSTP-thin
-            echo "Creating WSTP-thin symlink for macOS..."
-            ln -sf libWSTPi4.a "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP-thin.a"
+            echo "--- macOS WSTP Debug ---"
+            ls -al "$WSTP_COMPILER_ADDITIONS_DIRECTORY"
+            lipo -info "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTPi4.a"
+            # Some versions of wstp-sys expect WSTP-thin on macOS
+            echo "Copying to libWSTP-thin.a..."
+            cp "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTPi4.a" "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP-thin.a"
+            export WSTP_COMPILER_ADDITIONS="$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP-thin.a"
           fi
-          echo "Listing files to debug structure..."
+          echo "Listing all files for final debug..."
           ls -R
           echo "Building..."
           if [ "${{ matrix.use_zig }}" = "true" ]; then
