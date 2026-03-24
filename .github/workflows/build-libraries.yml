@@ -105,5 +105,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}-library
-          path: staging/${{ matrix.artifact }}
+          path: staging/
           if-no-files-found: error
