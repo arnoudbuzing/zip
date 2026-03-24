@@ -1,4 +1,4 @@
-BeginPackage["ZipLink`"];
+BeginPackage["ArnoudBuzing`ZipLink`"];
 
 Zip::usage = "Zip[source, dest] zips the source file or directory and saves it to dest.";
 Unzip::usage = "Unzip[source, dest] unzips the source file and saves it to dest.";
