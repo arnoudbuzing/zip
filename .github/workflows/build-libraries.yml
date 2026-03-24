@@ -66,8 +66,9 @@ jobs:
           ls -R
           echo "Building..."
           if [ "${{ matrix.use_zig }}" = "true" ]; then
-            # Add host library path to help find libuuid, but zig will still link against target glibc
-            export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
+            # Add host library paths to help find libuuid
+            export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/lib64:$LIBRARY_PATH
+            export RUSTFLAGS="-L /usr/lib/x86_64-linux-gnu -L /lib64"
             cd zip_link && cargo zigbuild --release --target ${{ matrix.target }}.2.17
           else
             cd zip_link && cargo build --release --target ${{ matrix.target }}
