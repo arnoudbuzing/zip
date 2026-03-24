@@ -1,5 +1,5 @@
-# Exclude Rust code as requested
-zip_link/
+# Exclude Rust target directory
+zip_link/target/
 
 # Exclude build artifacts
 build/
