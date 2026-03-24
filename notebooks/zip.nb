@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[    150129,       2936]
-NotebookOptionsPosition[    147520,       2885]
-NotebookOutlinePosition[    147913,       2901]
-CellTagsIndexPosition[    147870,       2898]
+NotebookDataLength[    150127,       2936]
+NotebookOptionsPosition[    147514,       2885]
+NotebookOutlinePosition[    147911,       2901]
+CellTagsIndexPosition[    147868,       2898]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2296,7 +2296,7 @@ dtd.xml", "Size" -> 445, "CompressedSize" -> 301, "CompressionMethod" ->
                     TypeSystem`NestedGrid`PackagePrivate`checkInteractivity[
                     TypeSystem`NestedGrid`PackagePrivate`$state$$], 
                     TypeSystem`NestedGrid`PackagePrivate`$vPos$$ = 
-                    Clip[TypeSystem`NestedGrid`PackagePrivate`$vPos$$ + (-20) 
+                    Clip[TypeSystem`NestedGrid`PackagePrivate`$vPos$$ - 20 
                     If[True, 30, 1], {1, 30 - -20 + 1}]; 
                     TypeSystem`NestedGrid`PackagePrivate`updateState[
                     TypeSystem`NestedGrid`PackagePrivate`$state$$, 
@@ -2344,7 +2344,7 @@ dtd.xml", "Size" -> 445, "CompressedSize" -> 301, "CompressionMethod" ->
                     TypeSystem`NestedGrid`PackagePrivate`checkInteractivity[
                     TypeSystem`NestedGrid`PackagePrivate`$state$$], 
                     TypeSystem`NestedGrid`PackagePrivate`$vPos$$ = 
-                    Clip[TypeSystem`NestedGrid`PackagePrivate`$vPos$$ + (-20) 
+                    Clip[TypeSystem`NestedGrid`PackagePrivate`$vPos$$ - 20 
                     If[False, 30, 1], {1, 30 - -20 + 1}]; 
                     TypeSystem`NestedGrid`PackagePrivate`updateState[
                     TypeSystem`NestedGrid`PackagePrivate`$state$$, 
@@ -2884,7 +2884,7 @@ Cell[BoxData[
  CellLabel->"In[11]:=",ExpressionUUID->"d640d561-fe14-4fb4-a896-844c57b9c0c8"]
 },
 WindowSize->{1470, 894},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowMargins->{{808, Automatic}, {Automatic, 286}},
 FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (March 18, 2026)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"cbefc7ae-f23c-4856-82c8-820eec368c2d"
@@ -2931,14 +2931,16 @@ Cell[42957, 839, 238, 5, 33, "Output",ExpressionUUID->"01b5349f-f0c3-42f3-9fc2-9
 Cell[43210, 847, 353, 9, 29, "Input",ExpressionUUID->"cf054c6f-ffbc-45cd-b182-6c97599350bd"],
 Cell[CellGroupData[{
 Cell[43588, 860, 388, 7, 29, "Input",ExpressionUUID->"30a9b551-f8ec-4912-8253-1b2d15452992"],
-Cell[43979, 869, 102555, 1989, 597, "Output",ExpressionUUID->"5bd3c94b-dc04-46f3-964b-bc4f12a18ae5"]
+Cell[43979, 869, 102549, 1989, 597, "Output",ExpressionUUID->"5bd3c94b-dc04-46f3-964b-bc4f12a18ae5"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[146571, 2863, 417, 7, 29, "Input",ExpressionUUID->"054f94d4-a59f-471d-b18c-4e38ed0a45ed"],
-Cell[146991, 2872, 229, 3, 33, "Output",ExpressionUUID->"ca6aa89c-1012-4735-91a9-c4b97b9f1ea9"]
+Cell[146565, 2863, 417, 7, 70, "Input",ExpressionUUID->"054f94d4-a59f-471d-b18c-4e38ed0a45ed"],
+Cell[146985, 2872, 229, 3, 70, "Output",ExpressionUUID->"ca6aa89c-1012-4735-91a9-c4b97b9f1ea9"]
 }, Open  ]],
-Cell[147235, 2878, 281, 5, 29, "Input",ExpressionUUID->"d640d561-fe14-4fb4-a896-844c57b9c0c8"]
+Cell[147229, 2878, 281, 5, 70, "Input",ExpressionUUID->"d640d561-fe14-4fb4-a896-844c57b9c0c8"]
 }
 ]
 *)
+
+(* End of internal cache information *)
 

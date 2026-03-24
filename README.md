@@ -31,7 +31,7 @@ PacletInstall["build/ZipLink-MacOSX-ARM64-1.0.0.paclet"]
 ### `Zip[source, dest, options]`
 Creates a zip archive at `dest` containing the file or directory at `source`.
 
-`"CompressionLevel"`: Integer or `Automatic`.
+`ZipLevel`: Integer or `Automatic`.
 
 **"Deflate"**: `0` (least) to `9` (most). Default: `6`.
 
@@ -60,7 +60,7 @@ Extracts a specific `file` (relative path in the archive) from the `zip` into th
 Needs["ZipLink`"]
 
 (* Zip using ZStandard compression *)
-Zip["my_data", "data.zip", "CompressionMethod" -> "ZStandard"]
+Zip["my_data", "data.zip", ZipMethod -> "ZStandard"]
 
 (* Inspect the archive *)
 ZipInformation["data.zip"]
