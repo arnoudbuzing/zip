@@ -70,10 +70,12 @@ jobs:
             echo "--- macOS WSTP Debug ---"
             ls -al "$WSTP_COMPILER_ADDITIONS_DIRECTORY"
             lipo -info "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTPi4.a"
-            # Some versions of wstp-sys expect WSTP-thin on macOS
-            echo "Copying to libWSTP-thin.a..."
-            cp "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTPi4.a" "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP-thin.a"
-            export WSTP_COMPILER_ADDITIONS="$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP-thin.a"
+            # Extract a true thin library as wstp-sys expects on macOS
+            echo "Extracting arm64 slice to libWSTP-thin.a..."
+            lipo -extract arm64 "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTPi4.a" -output "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP-thin.a"
+            # Ensure the linker finds it
+            export LIBRARY_PATH="$WSTP_COMPILER_ADDITIONS_DIRECTORY:$LIBRARY_PATH"
+            export RUSTFLAGS="-L $WSTP_COMPILER_ADDITIONS_DIRECTORY"
           fi
           echo "Listing all files for final debug..."
           ls -R
