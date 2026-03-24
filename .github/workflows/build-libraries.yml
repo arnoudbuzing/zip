@@ -84,7 +84,7 @@ jobs:
             # Add host library paths to help find libuuid
             export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/lib64:$LIBRARY_PATH
             # Use a linker version script to isolate symbols and prevent exit crashes on Linux
-            export RUSTFLAGS="-L /usr/lib/x86_64-linux-gnu -L /lib64 -lrt -C link-arg=-Wl,--version-script=version.map"
+            export RUSTFLAGS="-L /usr/lib/x86_64-linux-gnu -L /lib64 -lrt -C link-arg=-Wl,--version-script=version.map -C link-arg=-Wl,--undefined-version"
             cd zip_link && cargo zigbuild --release --target ${{ matrix.target }}.2.17
           else
             cd zip_link && cargo build --release --target ${{ matrix.target }}

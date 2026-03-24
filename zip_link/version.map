@@ -1,8 +1,6 @@
-{
+WOLFRAM {
   global:
-    WolframLibrary_getVersion;
-    WolframLibrary_initialize;
-    WolframLibrary_uninitialize;
+    WolframLibrary_*;
     zip_file;
     unzip_file;
     zip_info;
