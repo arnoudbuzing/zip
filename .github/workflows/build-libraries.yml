@@ -68,17 +68,22 @@ jobs:
           if [ "${{ matrix.use_zig }}" = "true" ]; then
             # Add host library paths to help find libuuid
             export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/lib64:$LIBRARY_PATH
-            export RUSTFLAGS="-L /usr/lib/x86_64-linux-gnu -L /lib64"
+            export RUSTFLAGS="-L /usr/lib/x86_64-linux-gnu -L /lib64 -lrt"
             cd zip_link && cargo zigbuild --release --target ${{ matrix.target }}.2.17
           else
             cd zip_link && cargo build --release --target ${{ matrix.target }}
           fi
 
+      - name: Stage Artifact
+        shell: bash
+        run: |
+          mkdir -p staging
+          cp zip_link/target/${{ matrix.target }}/release/${{ matrix.artifact }} staging/ 2>/dev/null || \
+          cp zip_link/target/${{ matrix.target }}.2.17/release/${{ matrix.artifact }} staging/
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}-library
-          path: |
-            zip_link/target/${{ matrix.target }}/release/${{ matrix.artifact }}
-            zip_link/target/${{ matrix.target }}.2.17/release/${{ matrix.artifact }}
+          path: staging/${{ matrix.artifact }}
           if-no-files-found: error

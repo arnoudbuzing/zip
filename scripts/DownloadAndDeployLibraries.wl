@@ -18,14 +18,21 @@ $FileMapping = <|
 
 (* Find gh CLI *)
 $GH = "gh";
-If[$GH === $Failed,
-    Print["Error: GitHub CLI (gh) not found in PATH. Please install it from https://cli.github.com/"];
+
+Print["--- Fetching Latest Successful Build ID ---"];
+runIDRes = RunProcess[{$GH, "run", "list", "--workflow", "build-libraries.yml", "--status", "success", "--limit", "1", "--json", "databaseId", "--jq", ".[0].databaseId"}];
+
+If[runIDRes["ExitCode"] =!= 0 || runIDRes["StandardOutput"] === "",
+    Print["Error: Could not find a successful build. Please wait for the GitHub Action to complete."];
     Exit[1]
 ];
 
+$RunID = StringTrim[runIDRes["StandardOutput"]];
+Print["Targeting Run ID: ", $RunID];
+
 Print["--- Downloading GitHub Actions Artifacts ---"];
-(* Download all artifacts for the most recent run *)
-res = RunProcess[{$GH, "run", "download", "--dir", $TempDir}];
+(* Download all artifacts for the specified run ID non-interactively *)
+res = RunProcess[{$GH, "run", "download", $RunID, "--dir", $TempDir}];
 
 If[res["ExitCode"] =!= 0,
     Print["Error downloading artifacts:"];
@@ -38,18 +45,22 @@ Print["--- Deploying Libraries to ZipLink/LibraryResources ---"];
 KeyValueMap[
     Function[{artifact, systemID},
         sourceFile = $FileMapping[systemID];
-        sourcePath = FileNameJoin[{$TempDir, artifact, sourceFile}];
+        artifactDir = FileNameJoin[{$TempDir, artifact}];
+        
+        (* Recursive search for the library file within the artifact directory *)
+        foundFiles = FileNames[sourceFile, artifactDir, Infinity];
         
         destDir = FileNameJoin[{$PacletDir, "LibraryResources", systemID}];
         (* Ensure consistent naming: FindLibrary["libzip_link"] expects libzip_link.dll on Windows *)
         destFile = If[systemID === "Windows-x86-64", "libzip_link.dll", sourceFile];
         destPath = FileNameJoin[{destDir, destFile}];
         
-        If[FileExistsQ[sourcePath],
+        If[Length[foundFiles] > 0,
+            sourcePath = foundFiles[[1]];
             If[!DirectoryQ[destDir], CreateDirectory[destDir, CreateIntermediateDirectories -> True]];
-            Print["Deploying: ", sourceFile, " -> ", destPath];
+            Print["Deploying: ", sourcePath, " -> ", destPath];
             CopyFile[sourcePath, destPath, OverwriteTarget -> True],
-            Print["Warning: Expected artifact file not found: ", sourcePath]
+            Print["Warning: Expected artifact file '", sourceFile, "' not found in ", artifactDir]
         ]
     ],
     $ArtifactSystemMapping
