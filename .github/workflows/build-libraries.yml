@@ -72,4 +72,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}-library
-          path: zip_link/target/${{ matrix.target }}/release/${{ matrix.artifact }}
+          path: |
+            zip_link/target/${{ matrix.target }}/release/${{ matrix.artifact }}
+            zip_link/target/${{ matrix.target }}.2.17/release/${{ matrix.artifact }}
+          if-no-files-found: error
