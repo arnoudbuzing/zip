@@ -29,7 +29,7 @@ jobs:
             target: x86_64-unknown-linux-gnu
             artifact: libzip_link.so
             wstp_system_id: Linux-x86-64
-            wstp_lib: libWSTP64i4.a
+            wstp_lib: libWSTP64i4.so
             use_zig: true
 
     env:
@@ -83,8 +83,8 @@ jobs:
           if [ "${{ matrix.use_zig }}" = "true" ]; then
             # Add host library paths to help find libuuid
             export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/lib64:$LIBRARY_PATH
-            # Use a linker version script to isolate symbols and prevent exit crashes on Linux
-            export RUSTFLAGS="-L /usr/lib/x86_64-linux-gnu -L /lib64 -lrt -C link-arg=-Wl,--version-script=version.map -C link-arg=-Wl,--undefined-version"
+            # Link against shared library and use rpath $ORIGIN to find it at runtime
+            export RUSTFLAGS="-L /usr/lib/x86_64-linux-gnu -L /lib64 -lrt -C link-arg=-Wl,--version-script=version.map -C link-arg=-Wl,--undefined-version -C link-arg=-Wl,-rpath,'\$ORIGIN'"
             cd zip_link && cargo zigbuild --release --target ${{ matrix.target }}.2.17
           else
             cd zip_link && cargo build --release --target ${{ matrix.target }}
@@ -96,6 +96,10 @@ jobs:
           mkdir -p staging
           cp zip_link/target/${{ matrix.target }}/release/${{ matrix.artifact }} staging/ 2>/dev/null || \
           cp zip_link/target/${{ matrix.target }}.2.17/release/${{ matrix.artifact }} staging/
+          # For Linux, also stage the WSTP shared library if it was used
+          if [ "${{ matrix.use_zig }}" = "true" ]; then
+            cp "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP64i4.so" staging/
+          fi
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4

@@ -40,27 +40,33 @@ If[res["ExitCode"] =!= 0,
     Exit[1]
 ];
 
+(* Deployment loop *)
 Print["--- Deploying Libraries to ZipLink/LibraryResources ---"];
-
 KeyValueMap[
     Function[{artifact, systemID},
-        sourceFile = $FileMapping[systemID];
+        sourceFiles = $FileMapping[systemID];
         artifactDir = FileNameJoin[{$TempDir, artifact}];
         
-        (* Recursive search for the library file within the artifact directory *)
-        foundFiles = FileNames[sourceFile, artifactDir, Infinity];
-        
         destDir = FileNameJoin[{$PacletDir, "LibraryResources", systemID}];
-        (* Ensure consistent naming: FindLibrary["libzip_link"] expects libzip_link.dll on Windows *)
-        destFile = If[systemID === "Windows-x86-64", "libzip_link.dll", sourceFile];
-        destPath = FileNameJoin[{destDir, destFile}];
+        If[!DirectoryQ[destDir], CreateDirectory[destDir, CreateIntermediateDirectories -> True]];
         
-        If[Length[foundFiles] > 0,
-            sourcePath = foundFiles[[1]];
-            If[!DirectoryQ[destDir], CreateDirectory[destDir, CreateIntermediateDirectories -> True]];
-            Print["Deploying: ", sourcePath, " -> ", destPath];
-            CopyFile[sourcePath, destPath, OverwriteTarget -> True],
-            Print["Warning: Expected artifact file '", sourceFile, "' not found in ", artifactDir]
+        Scan[
+            Function[{sourceFile},
+                (* Recursive search for the library file within the artifact directory *)
+                foundFiles = FileNames[sourceFile, artifactDir, Infinity];
+                
+                (* Ensure consistent naming for the main library on Windows *)
+                destFile = If[sourceFile === "zip_link.dll" && systemID === "Windows-x86-64", "libzip_link.dll", sourceFile];
+                destPath = FileNameJoin[{destDir, destFile}];
+                
+                If[Length[foundFiles] > 0,
+                    sourcePath = foundFiles[[1]];
+                    Print["Deploying: ", sourcePath, " -> ", destPath];
+                    CopyFile[sourcePath, destPath, OverwriteTarget -> True],
+                    Print["Warning: Expected artifact file '", sourceFile, "' not found in ", artifactDir]
+                ]
+            ],
+            sourceFiles
         ]
     ],
     $ArtifactSystemMapping
