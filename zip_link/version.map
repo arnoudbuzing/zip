@@ -1,0 +1,12 @@
+{
+  global:
+    WolframLibrary_getVersion;
+    WolframLibrary_initialize;
+    WolframLibrary_uninitialize;
+    zip_file;
+    unzip_file;
+    zip_info;
+    zip_extract_file;
+  local:
+    *;
+};
