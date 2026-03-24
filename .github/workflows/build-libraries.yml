@@ -27,6 +27,7 @@ jobs:
             target: x86_64-unknown-linux-gnu
             artifact: libzip_link.so
             wstp_system_id: Linux-x86-64
+            use_zig: true
 
     env:
       WSTP_COMPILER_ADDITIONS_DIRECTORY: ${{ github.workspace }}/WSTP/${{ matrix.wstp_system_id }}/CompilerAdditions
@@ -37,6 +38,14 @@ jobs:
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y uuid-dev
+
+      - name: Install zigbuild (Linux)
+        if: matrix.use_zig
+        run: pip install cargo-zigbuild
+
+      - name: Install zig (Linux)
+        if: matrix.use_zig
+        uses: mlugg/setup-zig@v1
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -50,8 +59,14 @@ jobs:
 
       - name: Build
         run: |
+          echo "Listing files to debug structure..."
+          ls -R
           echo "Building..."
-          cd zip_link && cargo build --release --target ${{ matrix.target }}
+          if [ "${{ matrix.use_zig }}" = "true" ]; then
+            cd zip_link && cargo zigbuild --release --target ${{ matrix.target }}.2.17
+          else
+            cd zip_link && cargo build --release --target ${{ matrix.target }}
+          fi
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
