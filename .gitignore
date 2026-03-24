@@ -3,7 +3,6 @@ zip_link/target/
 
 # Exclude build artifacts
 build/
-LibraryResources/
 .DS_Store
 
 # Temporary test files (moved to tests/)
