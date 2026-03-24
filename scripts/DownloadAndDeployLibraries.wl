@@ -11,9 +11,9 @@ $ArtifactSystemMapping = <|
 |>;
 
 $FileMapping = <|
-    "MacOSX-ARM64" -> "libzip_link.dylib",
-    "Windows-x86-64" -> "zip_link.dll",
-    "Linux-x86-64" -> "libzip_link.so"
+    "MacOSX-ARM64" -> {"libzip_link.dylib"},
+    "Windows-x86-64" -> {"zip_link.dll"},
+    "Linux-x86-64" -> {"libzip_link.so", "libWSTP64i4.so"}
 |>;
 
 (* Find gh CLI *)

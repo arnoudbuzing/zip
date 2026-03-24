@@ -1,3 +1,4 @@
+# version.map v1.0.3
 WOLFRAM {
   global:
     WolframLibrary_*;
