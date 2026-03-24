@@ -1,0 +1,52 @@
+name: Build ZipLink Libraries
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }} (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            artifact: libzip_link.dylib
+          - os: macos-13 # Intel Mac
+            target: x86_64-apple-darwin
+            artifact: libzip_link.dylib
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact: zip_link.dll
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            artifact: libzip_link.so
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: zip_link
+
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+        working-directory: zip_link
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}-library
+          path: zip_link/target/${{ matrix.target }}/release/${{ matrix.artifact }}
