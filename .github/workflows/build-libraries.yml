@@ -19,18 +19,22 @@ jobs:
             target: aarch64-apple-darwin
             artifact: libzip_link.dylib
             wstp_system_id: MacOSX-ARM64
+            wstp_lib: libWSTPi4.a
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             artifact: zip_link.dll
             wstp_system_id: Windows-x86-64
+            wstp_lib: wstp64i4.lib
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             artifact: libzip_link.so
             wstp_system_id: Linux-x86-64
+            wstp_lib: libWSTP64i4.a
             use_zig: true
 
     env:
       WSTP_COMPILER_ADDITIONS_DIRECTORY: ${{ github.workspace }}/WSTP/${{ matrix.wstp_system_id }}/CompilerAdditions
+      WSTP_COMPILER_ADDITIONS: ${{ github.workspace }}/WSTP/${{ matrix.wstp_system_id }}/CompilerAdditions/${{ matrix.wstp_lib }}
 
     steps:
       - uses: actions/checkout@v4
