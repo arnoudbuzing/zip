@@ -1,6 +1,6 @@
 # ZipLink
 
-`ZipLink` is a Wolfram Language paclet that provides bindings to the Rust `zip` crate via LibraryLink. It allows for high-performance zipping and unzipping of files and directories with support for modern compression formats.
+`ZipLink` is a state-of-the-art Wolfram Language paclet that bridges the Wolfram ecosystem with the high-performance Rust `zip` ecosystem through `LibraryLink`. Engineered for speed and reliability, it provides an intuitive interface for managing archives with support for industry-standard compression methods like Deflate, Bzip2, and the ultra-fast ZStandard. Whether you are bundling large datasets for distribution or performing surgical extractions from complex directory structures, `ZipLink` delivers a seamless, native-level experience for archive management in Mathematica and Wolfram Desktop.
 
 ## Features
 

@@ -3,8 +3,8 @@
 PacletObject[
   <|
     "Name" -> "ArnoudBuzing/ZipLink",
-    "Description" -> "Zip file compression via Rust LibraryLink",
-    "Creator" -> "Antigravity",
+    "Description" -> "Zip file and directory compression via Rust LibraryLink",
+    "Creator" -> "Arnoud Buzing",
     "License" -> "MIT",
     "PublisherID" -> "ArnoudBuzing",
     "Version" -> "1.0.0",
