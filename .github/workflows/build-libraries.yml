@@ -60,6 +60,7 @@ jobs:
           workspaces: zip_link
 
       - name: Build
+        shell: bash
         run: |
           echo "Listing files to debug structure..."
           ls -R
