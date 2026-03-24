@@ -66,6 +66,11 @@ jobs:
       - name: Build
         shell: bash
         run: |
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            # satisfy wstp-sys requirement for WSTP-thin
+            echo "Creating WSTP-thin symlink for macOS..."
+            ln -sf libWSTPi4.a "$WSTP_COMPILER_ADDITIONS_DIRECTORY/libWSTP-thin.a"
+          fi
           echo "Listing files to debug structure..."
           ls -R
           echo "Building..."
