@@ -1,6 +1,6 @@
 VerificationTest[
-    Needs["ZipLink`"];
-    MemberQ[$Packages, "ZipLink`"]
+    Needs["ArnoudBuzing`ZipLink`"];
+    MemberQ[$Packages, "ArnoudBuzing`ZipLink`"]
     ,
     True
     ,
@@ -100,7 +100,7 @@ VerificationTest[
         If[FileExistsQ[source], DeleteFile[source]];
         If[FileExistsQ[zip], DeleteFile[zip]];
         Export[source, "Zstd Content", "String"];
-        res = Zip[source, zip, "CompressionMethod" -> "ZStandard"];
+        res = Zip[source, zip, ZipMethod -> "ZStandard"];
         If[FailureQ[res], Return[res, Module]];
         
         info = ZipInformation[zip];

@@ -3,8 +3,8 @@
 $ScriptDir = DirectoryName[$InputFileName];
 $ProjectDir = ParentDirectory[$ScriptDir];
 
-PacletDirectoryLoad[$ProjectDir];
-Needs["ZipLink`"];
+PacletDirectoryLoad[FileNameJoin[{$ProjectDir, "ZipLink"}]];
+Needs["ArnoudBuzing`ZipLink`"];
 
 $TestFile = FileNameJoin[{$ProjectDir, "tests", "ZipLink.wlt"}];
 
