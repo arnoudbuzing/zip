@@ -14,9 +14,18 @@ PacletObject[
       {
         "Kernel",
         "Root" -> "Kernel",
-        "Context" -> {"ArnoudBuzing`ZipLink`"}
+        "Context" -> {"ArnoudBuzing`ZipLink`"},
+        "Symbols" -> {
+          "ArnoudBuzing`ZipLink`Unzip",
+          "ArnoudBuzing`ZipLink`Zip",
+          "ArnoudBuzing`ZipLink`ZipExtract",
+          "ArnoudBuzing`ZipLink`ZipInformation",
+          "ArnoudBuzing`ZipLink`ZipLevel",
+          "ArnoudBuzing`ZipLink`ZipMethod"
+        }
       },
-      {"LibraryLink"}
+      {"LibraryLink"},
+      {"Documentation", "Language" -> "English"}
     }
   |>
 ]
