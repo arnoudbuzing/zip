@@ -7,7 +7,7 @@ PacletObject[
     "Creator" -> "Arnoud Buzing",
     "License" -> "MIT",
     "PublisherID" -> "ArnoudBuzing",
-    "Version" -> "1.0.1",
+    "Version" -> "1.0.2",
     "WolframVersion" -> "14.3+",
     "PrimaryContext" -> "ArnoudBuzing`ZipLink`",
     "Extensions" -> {
