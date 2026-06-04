@@ -1,5 +1,7 @@
-# Exclude Rust target directory
+# Exclude Rust target directory but ensure source and configuration are tracked
 zip_link/target/
+!zip_link/src/
+!zip_link/Cargo.toml
 
 # Exclude build artifacts
 build/
